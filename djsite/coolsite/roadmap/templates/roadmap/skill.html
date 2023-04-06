@@ -1,13 +1,13 @@
 {% extends 'roadmap/base.html' %}
 
 {% block content %}
-    {% for r in relation %}
-        <h2>Дочерний элемент {{ r.child_id }}</h2>
+
+    {% for p in parents %}
+        <h2>Родительский элемент {{ p.parent.name }}</h2>
     {% endfor %}
-    {% for r in relation_2 %}
-        <h2>Родительский элемент {{ r.parent_id }}</h2>
+    {% for c in childs %}
+        <h2>Дочерний элемент {{ c.child.name }}</h2>
     {% endfor %}
 
-        {{ skill_2.name }}
 
 {% endblock %}

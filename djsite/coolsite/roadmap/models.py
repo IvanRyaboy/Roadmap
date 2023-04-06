@@ -3,11 +3,6 @@ from django.contrib.postgres.fields import ArrayField
 from django.urls import reverse
 
 
-class Relation(models.Model):
-    parent_id = models.IntegerField(verbose_name='Родитель')
-    child_id = models.IntegerField(verbose_name='Дочерний')
-
-
 class Skill(models.Model):
     name = models.CharField(max_length=20, verbose_name='Название')
     about = models.TextField(blank=True, verbose_name='Описание')
@@ -20,3 +15,7 @@ class Skill(models.Model):
     def get_absolute_url(self):
         return reverse('skill', kwargs={'skill_id': self.pk})
 
+
+class Relation(models.Model):
+    parent = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name='parent')
+    child = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name="child")

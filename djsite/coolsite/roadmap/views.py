@@ -19,18 +19,14 @@ def index(request):
 
 def skill(request, skill_id):
     skill = get_object_or_404(Skill, pk=skill_id)
-    relation = Relation.objects.filter(parent_id=skill_id)
-    relation_2 = Relation.objects.filter(child_id=skill_id)
-    r = 3
-    skill_2 = Skill.objects.raw(
-        "SELECT (SELECT roadmap_skill.name FROM roadmap_skill WHERE roadmap_skill.id IN (SELECT child_id FROM roadmap_relation WHERE parent_id = %i", r)
+    childs = skill.parent.all()
+    parents = skill.child.all()
 
     context = {
         'skill': skill,
-        'relation': relation,
-        'relation_2': relation_2,
+        'parents': parents,
+        'childs': childs,
         'title': skill.name,
-        'skill_2': skill_2
     }
 
     return render(request, 'roadmap/skill.html', context=context)
