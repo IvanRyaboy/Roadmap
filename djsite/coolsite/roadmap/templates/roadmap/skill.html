@@ -1,7 +1,6 @@
 {% extends 'roadmap/base.html' %}
 
 {% block content %}
-
     {% for p in parents %}
         <h2>Родительский элемент {{ p.parent.name }}</h2>
     {% endfor %}

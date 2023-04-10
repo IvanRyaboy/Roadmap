@@ -7,10 +7,16 @@ from .utils import DataMixin
 
 
 def index(request):
-    skill = Skill.objects.all()
+    skills = Relation.objects.select_related('parent', 'child').all()
+    mermaid_str = "graph LR;\n"
+    for item in skills:
+        mermaid_str += "{} --> {}\n".format(item.parent.name, item.child.name)
+    for item in skills:
+        mermaid_str += f"click {item.parent.name} \"{item.parent.get_absolute_url()}\"\n" \
+                       f"click {item.child.name} \"{item.child.get_absolute_url()}\"\n"
 
     context = {
-        'skill': skill,
+        'mermaid_str': mermaid_str,
         'title': "Главная страница"
     }
 
