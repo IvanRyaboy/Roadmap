@@ -1,0 +1,7 @@
+{% extends 'roadmap/base.html' %}
+
+{% block content %}
+    {% for s in skill %}
+        <li><h2><a href="{{ s.get_absolute_url }}" >{{ s.name }}</a></h2></li>
+    {% endfor %}
+{% endblock %}
