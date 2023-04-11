@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from .models import *
 from .utils import DataMixin
+from .functions import *
 
 
 def index(request):
@@ -24,14 +25,18 @@ def index(request):
 
 
 def skill(request, skill_id):
+    skill_list = []
+    parent_skill = []
     skill = get_object_or_404(Skill, pk=skill_id)
     childs = skill.parent.all()
     parents = skill.child.all()
+    parent_skill = (dfs(skill, skill_list))
 
     context = {
         'skill': skill,
         'parents': parents,
         'childs': childs,
+        'parent_skill': parent_skill,
         'title': skill.name,
     }
 
