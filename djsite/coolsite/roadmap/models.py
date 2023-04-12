@@ -17,5 +17,5 @@ class Skill(models.Model):
 
 
 class Relation(models.Model):
-    parent = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name='parent', blank=True)
-    child = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name="child", blank=True)
+    parent = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name='child', blank=True)
+    child = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name="parent", blank=True)
