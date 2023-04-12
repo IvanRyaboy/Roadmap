@@ -1,12 +1,21 @@
 {% extends 'roadmap/base.html' %}
 
 {% block content %}
-    {% for p in parents %}
-        <h2>Родительский элемент {{ p.parent.name }}</h2>
-    {% endfor %}
-    {% for c in childs %}
-        <h2>Дочерний элемент {{ c.child.name }}</h2>
-    {% endfor %}
+   <pre class="mermaid">
+        {{ mermaid_str }}
+    </pre>
+ <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      const callback = function() {
+        alert('A callback was triggered');
+      };
 
-{{ parent_skill }}
+      const config = {
+      startOnLoad: true,
+      flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'cardinal' },
+      securityLevel: 'loose',
+    };
+      mermaid.initialize(config);
+ </script>
+
 {% endblock %}
