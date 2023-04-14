@@ -19,7 +19,7 @@ source venv/Scripts/activate
 
 
 ## Setup PostgreSQL
-Create `roadmap` Database in PostgreSQL and change `USER` `PASSWORD` `HOST` in the `roadmap/setting.py`
+Create `dbRoadmap` Database in PostgreSQL and change `USER` `PASSWORD` `HOST` in the `roadmap/setting.py`
 
 
 ## Migrate Models
