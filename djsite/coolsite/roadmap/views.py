@@ -1,10 +1,6 @@
 from django.contrib.auth.views import LoginView
-from django.db.models import Q
 from django.http import HttpRequest, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy
-from .models import *
-from .utils import DataMixin
 from .functions import *
 
 
@@ -12,9 +8,8 @@ def index(request):
     skills = Relation.objects.select_related('parent', 'child').all()
     mermaid_str = "graph LR;\n"
     for item in skills:
-        mermaid_str += "{} --> {}\n".format(item.parent.name, item.child.name)
-    for item in skills:
-        mermaid_str += f"click {item.parent.name} \"{item.parent.get_absolute_url()}\"\n" \
+        mermaid_str += f"{item.parent.name}{item.parent.shape} --> {item.child.name}{item.child.shape}\n" \
+                       f"click {item.parent.name} \"{item.parent.get_absolute_url()}\"\n" \
                        f"click {item.child.name} \"{item.child.get_absolute_url()}\"\n"
 
     context = {
@@ -27,18 +22,18 @@ def index(request):
 
 def skill(request, skill_id):
     mermaid_str = "graph LR;\n"
-    relation_list = get_all_relations()
+    skills = Skill.objects.all()
+    relation = relation_all()
+    relation_list = get_all_relations(relation)
     skill = get_object_or_404(Skill, pk=skill_id)
     parents = get_all_parent_relations(skill)
     parents.append(skill.name)
     childs = get_all_child_relations(skill)
     childs.append(skill.name)
-    mermaid_str += parents_mermaid(parents, relation_list)
-    mermaid_str += childs_mermaid(childs, relation_list)
+    mermaid_str += parents_childs_mermaid(parents, childs, relation_list, skills)
 
     context = {
         'skill': skill,
-        'parents': parents,
         'mermaid_str': mermaid_str,
         'title': skill.name,
     }
