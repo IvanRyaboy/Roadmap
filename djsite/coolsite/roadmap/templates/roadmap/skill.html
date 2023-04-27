@@ -20,4 +20,8 @@
 
 {{ skill.about }}
 
+{% for f in form %}
+    <p>{{ f.label }}: {{ f }}</p>
+    <div>{{ f.errors }}</div>
+{% endfor %}
 {% endblock %}

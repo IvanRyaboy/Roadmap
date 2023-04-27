@@ -66,3 +66,4 @@ def parents_childs_mermaid(parents, childs, relation_list, skills):
                     elif childs[j] == s.name:
                         mermaid_str += f"click {childs[j]} \"{s.get_absolute_url()}\"\n"
     return mermaid_str
+

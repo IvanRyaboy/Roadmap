@@ -1,6 +1,8 @@
 from django.contrib.auth.views import LoginView
 from django.http import HttpRequest, HttpResponseNotFound
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+
+from .forms import ChooseLearningLevel
 from .functions import *
 
 
@@ -31,13 +33,29 @@ def skill(request, skill_id):
     childs = get_all_child_relations(skill)
     childs.append(skill.name)
     mermaid_str += parents_childs_mermaid(parents, childs, relation_list, skills)
-
-    context = {
-        'skill': skill,
-        'mermaid_str': mermaid_str,
-        'title': skill.name,
-    }
-
+    if skill.information_type != "read":
+        if request.method == 'POST':
+            form = ChooseLearningLevel(request.POST, request.FILES)
+            if form.is_valid():
+                # print(form.cleaned_data)
+                form.save()
+                return redirect('home')
+        else:
+            form = ChooseLearningLevel()
+        context = {
+            'form': form,
+            'skill': skill,
+            'mermaid_str': mermaid_str,
+            'title': skill.name,
+        }
+    else:
+        if request.POST.get('mark_as_done'):
+            request.
+        context = {
+            'skill': skill,
+            'mermaid_str': mermaid_str,
+            'title': skill.name,
+        }
     return render(request, 'roadmap/skill.html', context=context)
 
 
